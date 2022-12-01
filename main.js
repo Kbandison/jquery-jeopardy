@@ -1,165 +1,98 @@
-"use strict";
+// "use strict";
 
-let catAmount1 = document.querySelectorAll("#one .item");
-let catAmount2 = document.querySelectorAll("#two .item");
-let catAmount3 = document.querySelectorAll("#three .item");
-let catAmount4 = document.querySelectorAll("#four .item");
-let catAmount5 = document.querySelectorAll("#five .item");
-let catAmountAll = document.querySelectorAll("#grid .item");
-console.log(catAmountAll);
-
+// Query Selectors
 let modalQues = document.querySelector(".quest");
 let closeBtn = document.querySelector(".close");
 let catScore = document.querySelector("h4");
 let catModal = document.querySelector(".modal");
+// let catModalForm = document.querySelector(".modalForm .title");
 let catTitle = document.querySelector(".title");
 let catQuest = document.querySelector(".question");
 let catAns = document.querySelector(".answer");
 let catAnsBtn = document.querySelector(".answer-btn");
+let amount = document.querySelector(".amount");
+let catAmountAll = document.querySelectorAll("#grid .item");
 
+// Counts, objects, and variables to be re-declared
 let catObj = {};
-let i = 0;
-let numReplace = 0;
-let catNum = 0;
+let numReplace;
+let catNum;
 let count = 0;
-let score = `Your Score: $${count}`;
-// let count = 0;
 
 //ASYNC/AWAIT FUNCTION
 let jeopardyData = async () => {
   let response = await fetch("jeopardy.json");
   let data = await response.json();
 
-  let dataValue = _.groupBy(data, "value");
+  let dataValue = _.groupBy(data, "value"); //Group Data by value, or $$$
 
-  let cat100 = dataValue.$100;
-  let cat200 = dataValue.$200;
-  let cat300 = dataValue.$300;
-  let cat400 = dataValue.$400;
-  let cat500 = dataValue.$500;
+  let cash = Object.keys(dataValue); //Puts all the Value keys in a seperate array
 
-  //DOM Events
+  cash.forEach((c) => {
+    catAmountAll.forEach((e, i) => {
+      //Loops through the array of values
+      e.addEventListener("click", () => {
+        catModal.style.display = "block"; //When box is clicked, displays the hidden modal
 
+        if (c === e.innerText) {
+          //If the value of cash matches the inner text of the item(cash amount delared in HTML)
+          catObj =
+            dataValue[c][Math.floor(Math.random() * dataValue[c].length)]; //Gets the array of questions, and randomizes them by the total
+
+          numReplace = catObj.value.replace(/[^0-9]/g, ""); //Removes all non numbers from a string
+          catNum = Number(numReplace); //Convert The Category Value to a number
+
+          catTitle.innerText = `${catObj.category} for $${catNum}`; //Sets the 'title' to be whatever the category and the value is for the current question
+          catQuest.innerText = catObj.question; //Sets the h3 to be the question
+
+          modalQues.style.display = "block"; //Needed to show the question, text input and button after closing the modal after each question
+
+          closeBtn.onclick = function () {
+            //Function for the close button in the modal
+            amount.innerText = `$${count}`; //Once the modal is closed, the score is updated
+            amount.style.scale = "1.5";
+            // amount.style.transition = "400ms ease";
+            catModal.style.display = "none"; //Modal is hidden again
+            // closeBtn.style.display = "none";
+            catAmountAll[i].style.backgroundColor = "#888"; //Each box that was clicked will be grayed out
+            catAmountAll[i].style.borderColor = "#aaaaaa";
+            catAmountAll[i].style.color = "rgb(49, 47, 47)";
+            // catAmountAll[i].style.borderWidth = "5px";
+            catAmountAll[i].style.pointerEvents = "none"; //Prevents the player from clicking the box again
+            catAmountAll[i].style.transition = "1000ms ease";
+          };
+        }
+      });
+    });
+  });
+
+  // Modal functions
   catModal.addEventListener("click", (e) => {
     //Prevent Modal from disappearing (refreshing)
     e.preventDefault();
   });
 
-  catAmount1.forEach((e) => {
-    e.addEventListener("click", () => {
-      catModal.style.display = "block";
-
-      catObj = cat100[Math.floor(Math.random() * cat100.length)];
-
-      numReplace = catObj.value.replace(/[^0-9]/g, ""); //Removes all non numbers from a string
-      catNum = Number(numReplace); //Convert The Category Value to a number
-
-      catTitle.innerText = `${catObj.category} for $${catNum}`;
-      catQuest.innerText = catObj.question;
-
-      modalQues.style.display = "block";
-
-      closeBtn.onclick = function () {
-        catScore.innerText = score;
-        catModal.style.display = "none";
-        // closeBtn.style.display = "none";
-        catAmount1[i].style.backgroundColor = "#888";
-        catAmount1.disabled = `true`;
-      };
-    });
-  });
-
-  catAmount2.forEach((e) => {
-    e.addEventListener("click", () => {
-      catModal.style.display = "block";
-
-      catObj = cat200[Math.floor(Math.random() * cat200.length)];
-
-      numReplace = catObj.value.replace(/[^0-9]/g, ""); //Removes all non numbers from a string
-      catNum = Number(numReplace); //Convert The Category Value to a number
-
-      catTitle.innerText = `${catObj.category} for $${catNum}`;
-      catQuest.innerText = catObj.question;
-
-      modalQues.style.display = "block";
-    });
-  });
-
-  catAmount3.forEach((e) => {
-    e.addEventListener("click", () => {
-      catModal.style.display = "block";
-
-      catObj = cat300[Math.floor(Math.random() * cat300.length)];
-
-      numReplace = catObj.value.replace(/[^0-9]/g, ""); //Removes all non numbers from a string
-      catNum = Number(numReplace); //Convert The Category Value to a number
-
-      catTitle.innerText = `${catObj.category} for $${catNum}`;
-      catQuest.innerText = catObj.question;
-
-      modalQues.style.display = "block";
-    });
-  });
-
-  catAmount4.forEach((e) => {
-    e.addEventListener("click", () => {
-      catModal.style.display = "block";
-
-      catObj = cat400[Math.floor(Math.random() * cat400.length)];
-
-      numReplace = catObj.value.replace(/[^0-9]/g, ""); //Removes all non numbers from a string
-      catNum = Number(numReplace); //Convert The Category Value to a number
-
-      catTitle.innerText = `${catObj.category} for $${catNum}`;
-      catQuest.innerText = catObj.question;
-
-      modalQues.style.display = "block";
-    });
-  });
-
-  catAmount5.forEach((e) => {
-    e.addEventListener("click", () => {
-      catModal.style.display = "block";
-
-      catObj = cat500[Math.floor(Math.random() * cat500.length)];
-
-      numReplace = catObj.value.replace(/[^0-9]/g, ""); //Removes all non numbers from a string
-      catNum = Number(numReplace); //Convert The Category Value to a number
-
-      catTitle.innerText = `${catObj.category} for $${catNum}`;
-      catQuest.innerText = catObj.question;
-
-      modalQues.style.display = "block";
-    });
-  });
-
   catAnsBtn.addEventListener("click", () => {
     catAns = document.querySelector(".answer");
-    let jepAns = catObj.answer.toLowerCase();
-    let userAns = catAns.value.toUpperCase();
+    let jepAns = catObj.answer.toLowerCase(); //Make sure user input is same case
+    let userAns = catAns.value.toUpperCase(); //Make sure the answer displayed is the same case
 
     if (catAns.value !== jepAns) {
-      closeBtn.style.display = "block";
-      modalQues.style.display = "none";
+      closeBtn.style.display = "block"; //Reveals the close button
+      modalQues.style.display = "none"; //Hides the div holding the question, text input, and button elements
 
-      catTitle.innerText = `Wrong Answer!! The Correct Answer is ${catObj.answer}`;
-      catAns.value = "";
+      catTitle.innerText = `Wrong Answer!! The Correct Answer is "${catObj.answer}"`; //Title is changed from category/value to this staement
+      catAns.value = ""; //Clears the input box
     } else if (catAns.value === jepAns) {
       closeBtn.style.display = "block";
       modalQues.style.display = "none";
 
-      catTitle.innerText = `${userAns} is the Correct Answer!!`;
+      catTitle.innerText = `"${userAns}" is the Correct Answer!!`;
       catAns.value = "";
 
-      count += catNum;
-      score = `Your Score: $${count}`;
+      count += catNum; //Adds the value for the question to a counter
+      // amount.innerText = `$${count}`; //Adds the total in the counter to this statement, displayed on the main screen
     }
-    closeBtn.onclick = function () {
-      catScore.innerText = score;
-      catModal.style.display = "none";
-      // closeBtn.style.display = "none";
-      catAmountAll.style.backgroundColor = "#888";
-    };
   });
 };
 
