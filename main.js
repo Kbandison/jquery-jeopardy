@@ -1,16 +1,14 @@
 "use strict";
 
-let body = document.querySelector("body");
-let catGrid = document.querySelector("#grid");
-let catItem = document.querySelector(".item");
-
-let catRow = document.querySelectorAll(".row .item");
 let catAmount1 = document.querySelectorAll("#one .item");
 let catAmount2 = document.querySelectorAll("#two .item");
 let catAmount3 = document.querySelectorAll("#three .item");
 let catAmount4 = document.querySelectorAll("#four .item");
 let catAmount5 = document.querySelectorAll("#five .item");
+let catAmountAll = document.querySelectorAll("#grid .item");
+console.log(catAmountAll);
 
+let modalQues = document.querySelector(".quest");
 let closeBtn = document.querySelector(".close");
 let catScore = document.querySelector("h4");
 let catModal = document.querySelector(".modal");
@@ -19,9 +17,10 @@ let catQuest = document.querySelector(".question");
 let catAns = document.querySelector(".answer");
 let catAnsBtn = document.querySelector(".answer-btn");
 
-let j = 0;
-let i = j++;
-let catObj = [];
+let catObj = {};
+let i = 0;
+let numReplace = 0;
+let catNum = 0;
 let count = 0;
 let score = `Your Score: $${count}`;
 // let count = 0;
@@ -32,15 +31,12 @@ let jeopardyData = async () => {
   let data = await response.json();
 
   let dataValue = _.groupBy(data, "value");
-  // console.log(dataValue);
-  // console.log(data);
 
   let cat100 = dataValue.$100;
   let cat200 = dataValue.$200;
   let cat300 = dataValue.$300;
   let cat400 = dataValue.$400;
   let cat500 = dataValue.$500;
-  // console.log(cat100);
 
   //DOM Events
 
@@ -53,53 +49,117 @@ let jeopardyData = async () => {
     e.addEventListener("click", () => {
       catModal.style.display = "block";
 
-      let numReplace = cat100[i].value.replace(/[^0-9]/g, ""); //Removes all non numbers from a string
-      let catNum = Number(numReplace); //Convert The Category Value to a number
+      catObj = cat100[Math.floor(Math.random() * cat100.length)];
 
-      for (let i = 0; i < cat100.length; i++) {
-        catTitle.innerText = `${cat100[i].category} for $${catNum}`; //Need to figure how to populate modal correctly
-        catQuest.innerText = cat100[i].question;
-        // console.log(cat100[i].category);
-        // console.log(catNum);
-        // console.log(cat100[i].question);
-        // console.log(cat100[i].answer);
+      numReplace = catObj.value.replace(/[^0-9]/g, ""); //Removes all non numbers from a string
+      catNum = Number(numReplace); //Convert The Category Value to a number
 
-        // catQuest.style.display = "inline-block";
-        catAns.style.display = "inline-block";
-        catAnsBtn.style.display = "inline-block";
+      catTitle.innerText = `${catObj.category} for $${catNum}`;
+      catQuest.innerText = catObj.question;
 
-        catAnsBtn.addEventListener("click", () => {
-          catAns = document.querySelector(".answer");
-          console.log(catAns.value);
-          console.log(cat100[i].answer);
-          if (catAns.value !== cat100[i].answer) {
-            console.log(catAns.value);
-            closeBtn.style.display = "block";
-            catTitle.innerText = `Wrong Answer!! The Correct Answer is ${cat100[i].answer}`;
-            catQuest.style.display = "none";
-            catAns.style.display = "none";
-            catAnsBtn.style.display = "none";
-            catAns.value = "";
-          } else if (catAns.value === cat100[i].answer) {
-            closeBtn.style.display = "block";
-            catTitle.innerText = `Correct Answer!!`;
-            // catQuest.style.display = "none";
-            catQuest.innerText = catAns.value;
-            catAns.style.display = "none";
-            catAnsBtn.style.display = "none";
-            count += catNum;
-            score = `Your Score: $${count}`;
-            catScore.innerText = score;
-            catAns.value = "";
-          }
-        });
+      modalQues.style.display = "block";
 
-        closeBtn.onclick = function () {
-          catModal.style.display = "none";
-          // closeBtn.style.display = "none";
-        };
-      }
+      closeBtn.onclick = function () {
+        catScore.innerText = score;
+        catModal.style.display = "none";
+        // closeBtn.style.display = "none";
+        catAmount1[i].style.backgroundColor = "#888";
+        catAmount1.disabled = `true`;
+      };
     });
+  });
+
+  catAmount2.forEach((e) => {
+    e.addEventListener("click", () => {
+      catModal.style.display = "block";
+
+      catObj = cat200[Math.floor(Math.random() * cat200.length)];
+
+      numReplace = catObj.value.replace(/[^0-9]/g, ""); //Removes all non numbers from a string
+      catNum = Number(numReplace); //Convert The Category Value to a number
+
+      catTitle.innerText = `${catObj.category} for $${catNum}`;
+      catQuest.innerText = catObj.question;
+
+      modalQues.style.display = "block";
+    });
+  });
+
+  catAmount3.forEach((e) => {
+    e.addEventListener("click", () => {
+      catModal.style.display = "block";
+
+      catObj = cat300[Math.floor(Math.random() * cat300.length)];
+
+      numReplace = catObj.value.replace(/[^0-9]/g, ""); //Removes all non numbers from a string
+      catNum = Number(numReplace); //Convert The Category Value to a number
+
+      catTitle.innerText = `${catObj.category} for $${catNum}`;
+      catQuest.innerText = catObj.question;
+
+      modalQues.style.display = "block";
+    });
+  });
+
+  catAmount4.forEach((e) => {
+    e.addEventListener("click", () => {
+      catModal.style.display = "block";
+
+      catObj = cat400[Math.floor(Math.random() * cat400.length)];
+
+      numReplace = catObj.value.replace(/[^0-9]/g, ""); //Removes all non numbers from a string
+      catNum = Number(numReplace); //Convert The Category Value to a number
+
+      catTitle.innerText = `${catObj.category} for $${catNum}`;
+      catQuest.innerText = catObj.question;
+
+      modalQues.style.display = "block";
+    });
+  });
+
+  catAmount5.forEach((e) => {
+    e.addEventListener("click", () => {
+      catModal.style.display = "block";
+
+      catObj = cat500[Math.floor(Math.random() * cat500.length)];
+
+      numReplace = catObj.value.replace(/[^0-9]/g, ""); //Removes all non numbers from a string
+      catNum = Number(numReplace); //Convert The Category Value to a number
+
+      catTitle.innerText = `${catObj.category} for $${catNum}`;
+      catQuest.innerText = catObj.question;
+
+      modalQues.style.display = "block";
+    });
+  });
+
+  catAnsBtn.addEventListener("click", () => {
+    catAns = document.querySelector(".answer");
+    let jepAns = catObj.answer.toLowerCase();
+    let userAns = catAns.value.toUpperCase();
+
+    if (catAns.value !== jepAns) {
+      closeBtn.style.display = "block";
+      modalQues.style.display = "none";
+
+      catTitle.innerText = `Wrong Answer!! The Correct Answer is ${catObj.answer}`;
+      catAns.value = "";
+    } else if (catAns.value === jepAns) {
+      closeBtn.style.display = "block";
+      modalQues.style.display = "none";
+
+      catTitle.innerText = `${userAns} is the Correct Answer!!`;
+      catAns.value = "";
+
+      count += catNum;
+      score = `Your Score: $${count}`;
+    }
+    closeBtn.onclick = function () {
+      catScore.innerText = score;
+      catModal.style.display = "none";
+      // closeBtn.style.display = "none";
+      catAmountAll.style.backgroundColor = "#888";
+    };
   });
 };
 
