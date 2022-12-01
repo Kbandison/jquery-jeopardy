@@ -191,7 +191,7 @@ body {
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shine 3s infinite linear;
+  animation: shine 2s infinite linear;
   margin-bottom: 100px;
   margin-top: 70px;
 }

@@ -5,7 +5,6 @@ let modalQues = document.querySelector(".quest");
 let closeBtn = document.querySelector(".close");
 let catScore = document.querySelector("h4");
 let catModal = document.querySelector(".modal");
-// let catModalForm = document.querySelector(".modalForm .title");
 let catTitle = document.querySelector(".title");
 let catQuest = document.querySelector(".question");
 let catAns = document.querySelector(".answer");
@@ -82,6 +81,7 @@ let jeopardyData = async () => {
       modalQues.style.display = "none"; //Hides the div holding the question, text input, and button elements
 
       catTitle.innerText = `Wrong Answer!! The Correct Answer is "${catObj.answer}"`; //Title is changed from category/value to this staement
+      count -= catNum;
       catAns.value = ""; //Clears the input box
     } else if (catAns.value === jepAns) {
       closeBtn.style.display = "block";
